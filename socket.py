@@ -36,26 +36,26 @@ conn.sendall('220 FTP\r\n')  # представляемся FTP-сервером
 
 stop = False
 while not stop:
-  data = str(conn.recv(1024))  # читаем команды от клиента
+    data = str(conn.recv(1024))  # читаем команды от клиента
 
-  # когда клиент сообщает имя пользователя – просим пароль,
-  # чтобы корректно имитировать процедуру аутентификации
-  if data.startswith('USER'):
-    conn.sendall('331 password please\r\n')
+    # когда клиент сообщает имя пользователя – просим пароль,
+    # чтобы корректно имитировать процедуру аутентификации
+    if data.startswith('USER'):
+        conn.sendall('331 password please\r\n')
 
-  # команда RETR как раз будет содержать извлекаемое содержимое файла
-  elif data.startswith('RETR'):
-    print('->  RETR command received, extracted data:')
-    print('-'*30)
-    print(data.split(' ', 1)[-1])
-    stop = True
+    # команда RETR как раз будет содержать извлекаемое содержимое файла
+    elif data.startswith('RETR'):
+        print('->  RETR command received, extracted data:')
+        print('-'*30)
+        print(data.split(' ', 1)[-1])
+        stop = True
 
-  elif data.startswith('QUIT'):  # останавливаемся, если клиент просит
-    stop = True
+    elif data.startswith('QUIT'):  # останавливаемся, если клиент просит
+        stop = True
 
-  # в других случаях просим дополнительные данные
-  else:
-    conn.sendall('230 more data please\r\n')
+    # в других случаях просим дополнительные данные
+    else:
+        conn.sendall('230 more data please\r\n')
 
 conn.close()
 s.close()
